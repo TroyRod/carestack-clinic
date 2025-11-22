@@ -5,20 +5,24 @@ import {
   getDoctorPatients,
   updatePatient,
   deletePatient,
+  getPatientById,
 } from "../controllers/patientController.js";
 
 import { protect, adminOnly } from "../helpers/authMiddleware.js";
 
 const router = express.Router();
 
-// CREATE PATIENT — admin + doctors
+// CREATE PATIENT
 router.post("/", protect, createPatient);
 
-// GET ALL PATIENTS — admin only
+// GET ALL PATIENTS (admin only)
 router.get("/", protect, adminOnly, getAllPatients);
 
-// GET PATIENTS FOR LOGGED-IN DOCTOR
+// GET DOCTOR'S PATIENTS
 router.get("/mine", protect, getDoctorPatients);
+
+// GET SINGLE PATIENT (must be above PUT/DELETE)
+router.get("/:id", protect, getPatientById);
 
 // UPDATE PATIENT
 router.put("/:id", protect, updatePatient);

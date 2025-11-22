@@ -1,28 +1,47 @@
+// server/express.js
 import express from "express";
 import cors from "cors";
-import medicationRoutes from "./routes/medicationRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import patientRoutes from "./routes/patientRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
+// ROUTES
+import userRoutes from "./routes/userRoutes.js";
+import patientRoutes from "./routes/patientRoutes.js";
+import medicationRoutes from "./routes/medicationRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+
 const app = express();
 
+// Needed for __dirname in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// ✅ Middleware FIRST
+// MIDDLEWARE
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Routes AFTER middleware
+// --------------------------------------------------
+// STATIC: SERVE THE UPLOADS FOLDER *CORRECTLY*
+// --------------------------------------------------
+// Exposes files like:
+// http://localhost:3000/uploads/image-12345.jpg
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
+
+// --------------------------------------------------
+// ROUTES
+// --------------------------------------------------
 app.use("/api/users", userRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/medications", medicationRoutes);
+app.use("/api/upload", uploadRoutes);
 
+// Default test route
 app.get("/", (req, res) => {
-  res.json({ message: "API running" });
+  res.json({ message: "API running successfully" });
 });
 
 export default app;

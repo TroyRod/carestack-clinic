@@ -1,33 +1,17 @@
+// server/routes/medicationRoutes.js
 import express from "express";
-import {
-  createMedication,
-  getMedicationsByPatient,
-  updateMedication,
-  deleteMedication,
-  getAllMedications,
-  getMedicationById
-} from "../controllers/medicationController.js";
-
-import { protect, adminOnly } from "../helpers/authMiddleware.js";
+import medications from "../data/medications.js";
+import { protect } from "../helpers/authMiddleware.js";
 
 const router = express.Router();
 
-// CREATE medication (doctor/admin)
-router.post("/", protect, createMedication);
-
-// ADMIN: GET ALL medications
-router.get("/", protect, adminOnly, getAllMedications);
-
-// GET medication by ID
-router.get("/single/:id", protect, getMedicationById);
-
-// GET ALL meds for a specific patient
-router.get("/:patientId", protect, getMedicationsByPatient);
-
-// UPDATE medication
-router.put("/:id", protect, updateMedication);
-
-// DELETE medication
-router.delete("/:id", protect, deleteMedication);
+/**
+ * GET /api/medications
+ * Returns the static medication library.
+ * Any logged-in user (doctor / admin / caregiver) can read this.
+ */
+router.get("/", protect, (req, res) => {
+  res.json(medications);
+});
 
 export default router;
