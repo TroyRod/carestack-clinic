@@ -1,19 +1,19 @@
 // index.js
 
+import dotenv from "dotenv";
+dotenv.config();  
+
 import mongoose from "mongoose";
 import config from "./config/config.js";
 import app from "./server/express.js";
 
 console.log("Connecting to:", config.mongoUri);
 
-
 mongoose.Promise = global.Promise;
 
 // Connect to MongoDB
 mongoose
-  .connect(config.mongoUri, {
-    // options optional in modern versions
-  })
+  .connect(config.mongoUri, {})
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
