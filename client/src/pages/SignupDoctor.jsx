@@ -1,6 +1,8 @@
 import { useState } from "react";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
+import "./Signup.css";
+import doctorSignupImg from "../assets/SignupD.png";
 
 export default function SignupDoctor() {
   const navigate = useNavigate();
@@ -32,8 +34,6 @@ export default function SignupDoctor() {
       });
 
       setLoading(false);
-      alert("Doctor account created successfully!");
-
       navigate("/login");
     } catch (err) {
       setLoading(false);
@@ -42,123 +42,69 @@ export default function SignupDoctor() {
   };
 
   return (
-    <div style={styles.page}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Doctor Signup</h1>
-        <p style={styles.subtitle}>Create your Carestack doctor account</p>
+    <div className="signup-page">
+      <div className="signup-card">
 
-        {error && <p style={styles.error}>{error}</p>}
+        {/* LEFT SIDE FORM */}
+        <div className="signup-left">
+          <h1 className="signup-title">Doctor Signup</h1>
+          <p className="signup-subtitle">Create your CareStack doctor account</p>
 
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label}>Full Name</label>
-          <input
-            type="text"
-            name="name"
-            onChange={handleChange}
-            required
-            style={styles.input}
-            placeholder="John Doe"
-          />
+          {error && <p className="signup-error">{error}</p>}
 
-          <label style={styles.label}>Email Address</label>
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            required
-            style={styles.input}
-            placeholder="doctor@example.com"
-          />
+          <form className="signup-form" onSubmit={handleSubmit}>
+            <label className="signup-label">Full Name</label>
+            <input
+              className="signup-input"
+              type="text"
+              name="name"
+              placeholder="John Doe"
+              required
+              onChange={handleChange}
+            />
 
-          <label style={styles.label}>Password (10+ characters)</label>
-          <input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            required
-            style={styles.input}
-            placeholder="************"
-          />
+            <label className="signup-label">Email Address</label>
+            <input
+              className="signup-input"
+              type="email"
+              name="email"
+              placeholder="doctor@example.com"
+              required
+              onChange={handleChange}
+            />
 
-          <label style={styles.label}>3-Digit Doctor ID</label>
-          <input
-            type="number"
-            name="customId"
-            onChange={handleChange}
-            required
-            style={styles.input}
-            placeholder="123"
-          />
+            <label className="signup-label">Password</label>
+            <input
+              className="signup-input"
+              type="password"
+              name="password"
+              placeholder="************"
+              required
+              onChange={handleChange}
+            />
 
-          <button type="submit" style={styles.button} disabled={loading}>
-            {loading ? "Creating..." : "Create Account"}
-          </button>
-        </form>
+            <label className="signup-label">3-Digit Doctor ID</label>
+            <input
+              className="signup-input"
+              type="number"
+              name="customId"
+              placeholder="123"
+              required
+              onChange={handleChange}
+            />
+
+            <button className="signup-btn" type="submit" disabled={loading}>
+              {loading ? "Creating..." : "Create Account"}
+            </button>
+          </form>
+        </div>
+
+        {/* RIGHT SIDE IMAGE */}
+        <div className="signup-right">
+          <img src={doctorSignupImg} alt="Doctor Signup" className="signup-img" />
+        </div>
+
       </div>
     </div>
   );
 }
-
-const styles = {
-  page: {
-    height: "calc(100vh - 60px)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    background: "#f5f7fa",
-  },
-  card: {
-    width: "400px",
-    background: "white",
-    padding: "30px 35px",
-    borderRadius: "12px",
-    boxShadow: "0px 4px 20px rgba(0,0,0,0.08)",
-  },
-  title: {
-    textAlign: "center",
-    marginBottom: "5px",
-    fontSize: "28px",
-    fontWeight: "bold",
-  },
-  subtitle: {
-    textAlign: "center",
-    marginBottom: "25px",
-    fontSize: "14px",
-    color: "#666",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  label: {
-    color: "#333",
-    marginBottom: "6px",
-    fontWeight: "600",
-  },
-  input: {
-    padding: "12px",
-    border: "1px solid #ccc",
-    borderRadius: "6px",
-    marginBottom: "16px",
-    fontSize: "14px",
-  },
-  button: {
-    padding: "12px",
-    backgroundColor: "#007bff",
-    color: "white",
-    border: "none",
-    fontSize: "16px",
-    borderRadius: "6px",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-  error: {
-    backgroundColor: "#ffe5e5",
-    color: "#c00",
-    padding: "10px",
-    borderRadius: "6px",
-    marginBottom: "15px",
-    textAlign: "center",
-    fontWeight: "bold",
-  }
-};
