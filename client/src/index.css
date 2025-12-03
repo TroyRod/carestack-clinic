@@ -1,0 +1,79 @@
+/* GLOBAL RESET  */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BRAND ROOT COLORS  */
+
+:root {
+  /* CareStack brand colours */
+  --deep-blue: #003953;
+  --teal: #05A3A9;
+  --sky-blue: #0099D8;
+  --green-light: #89C540;
+
+  --background: #cedae7;
+  --text-main: var(--deep-blue);
+
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  background-color: var(--background);
+  color: var(--text-main);
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* GLOBAL BODY RESET */
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100vh;
+  background-color: var(--background);
+  color: var(--text-main);
+}
+
+/* Remove the default centered flexbox from Vite */
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* LINKS */
+
+a {
+  font-weight: 500;
+  color: var(--sky-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--deep-blue);
+}
+
+/*BUTTONS*/
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--sky-blue);
+  color: white;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+button:hover {
+  background-color: var(--deep-blue);
+}

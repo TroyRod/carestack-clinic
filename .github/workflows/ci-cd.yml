@@ -1,0 +1,72 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'client/package-lock.json'
+      
+      - name: Install dependencies (Client)
+        working-directory: ./client
+        run: npm ci
+      
+      - name: Run unit tests
+        working-directory: ./client
+        run: npm run test -- --run
+      
+      - name: Install dependencies (Server)
+        working-directory: .
+        run: npm ci
+      
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+  
+  deploy:
+    name: Deploy Application
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies (Client)
+        working-directory: ./client
+        run: npm ci
+      
+      - name: Build client
+        working-directory: ./client
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+      
+      - name: Deploy to production
+        run: |
+          echo "Deployment steps would go here"
+          echo "For example: deploying to Vercel, Netlify, or other cloud providers"
+

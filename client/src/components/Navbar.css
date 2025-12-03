@@ -1,0 +1,77 @@
+/* NAVBAR WRAPPER */
+.navbar {
+  height: 70px;
+  width: 100%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: fixed;        /* keeps it on top */
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+
+/* BRAND TITLE */
+.nav-left h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #003953; /* deep blue */
+  font-weight: 700;
+}
+
+/* NAV LINKS RIGHT SIDE */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* EACH LINK */
+.nav-link {
+  color: #003953;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  transition: 0.25s ease;
+}
+
+.nav-link:hover {
+  background: rgba(0, 153, 216, 0.28);
+  box-shadow: 0 0 8px rgba(0, 153, 216, 0.2);
+  color: var(--deep-blue);
+}
+
+/* LOGOUT BUTTON */
+.logout-btn {
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #0099D8; /* sky blue */
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s;
+}
+
+.logout-btn:hover {
+  background: #003953; /* deep blue */
+}
+
+/* Make sure content below the nav is visible */
+body {
+  padding-top: 80px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-logo {
+  width: 34px;   /* adjust if needed */
+  height: auto;
+}

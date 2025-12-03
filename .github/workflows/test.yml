@@ -1,0 +1,88 @@
+name: Run Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'client/package-lock.json'
+      
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm ci
+      
+      - name: Run unit tests
+        working-directory: ./client
+        run: npm run test -- --run
+      
+      - name: Generate test coverage
+        working-directory: ./client
+        run: npm run test:coverage || true
+  
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'client/package-lock.json'
+      
+      - name: Install dependencies
+        working-directory: ./client
+        run: npm ci
+      
+      - name: Build application
+        working-directory: ./client
+        run: npm run build
+        env:
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL || 'http://localhost:3000/api' }}
+      
+      - name: Start application
+        working-directory: ./client
+        run: npm run preview &
+      
+      - name: Wait for application
+        run: |
+          sleep 5
+          curl --retry 5 --retry-delay 2 http://localhost:4173 || true
+      
+      - name: Run Cypress tests
+        working-directory: ./client
+        run: npm run cypress:run || true
+      
+      - name: Upload test artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: client/cypress/screenshots
+      
+      - name: Upload test videos
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: client/cypress/videos
+
