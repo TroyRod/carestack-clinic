@@ -34,8 +34,10 @@ export default function Navbar() {
         {role === "admin" && (
           <>
             <Link to="/dashboard" className="nav-link">Dashboard</Link>
+            <Link to="/admin" className="nav-link">Manage Doctors</Link>
             <Link to="/patients" className="nav-link">Patients</Link>
             <Link to="/create-patient" className="nav-link">Add Patient</Link>
+            <Link to="/users" className="nav-link">Users</Link>
             <Link to="/signup" className="nav-link">Create User</Link>
           </>
         )}

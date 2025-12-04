@@ -36,6 +36,8 @@ const userSchema = new mongoose.Schema(
         return this.role === "doctor" || this.role === "caregiver";
       }
     },
+    
+    // Allow admin to be created without customId (will be removed when role changes)
 
   },
   { timestamps: true }

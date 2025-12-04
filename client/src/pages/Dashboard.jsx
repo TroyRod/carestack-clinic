@@ -31,6 +31,16 @@ export default function Dashboard() {
               <h2>Create User</h2>
               <p>Add new doctors or caregivers.</p>
             </a>
+
+            <a href="/admin" style={styles.card}>
+              <h2>Manage Doctors</h2>
+              <p>View doctors and their patients.</p>
+            </a>
+
+            <a href="/users" style={styles.card}>
+              <h2>Manage Users</h2>
+              <p>View all users and convert caregivers to admin.</p>
+            </a>
           </>
         )}
 

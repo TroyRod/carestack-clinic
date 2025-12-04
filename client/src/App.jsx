@@ -15,6 +15,8 @@ const EditPatient = lazy(() => import("./pages/EditPatient"));
 const SignupDoctor = lazy(() => import("./pages/SignupDoctor"));
 const SignupCaregiver = lazy(() => import("./pages/SignupCaregiver"));
 const Medications = lazy(() => import("./pages/Medications"));
+const Admin = lazy(() => import("./pages/Admin"));
+const Users = lazy(() => import("./pages/Users"));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -95,6 +97,24 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Signup />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <Admin />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <Users />
               </ProtectedRoute>
             }
           />
