@@ -32,6 +32,21 @@ app.use(
 );
 
 // --------------------------------------------------
+// STATIC: SERVE FRONTEND BUILD IN PRODUCTION
+// --------------------------------------------------
+// When deploying full-stack on one host (e.g., Render), serve the Vite build
+// from the client/dist folder. In development, Vite dev server handles this.
+if (process.env.NODE_ENV === "production") {
+  const distPath = path.join(__dirname, "../dist/app");
+  app.use(express.static(distPath));
+
+  // For React Router: send index.html for unmatched routes
+  app.use((req, res) => {
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
+
+// --------------------------------------------------
 // ROUTES
 // --------------------------------------------------
 app.use("/api/users", userRoutes);
