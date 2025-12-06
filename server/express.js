@@ -32,17 +32,13 @@ app.use(
 );
 
 // --------------------------------------------------
+// --------------------------------------------------
 // ROUTES (MUST BE BEFORE STATIC/CATCH-ALL)
 // --------------------------------------------------
 app.use("/api/users", userRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/medications", medicationRoutes);
 app.use("/api/upload", uploadRoutes);
-
-// Default test route
-app.get("/", (req, res) => {
-  res.json({ message: "API running successfully" });
-});
 
 // --------------------------------------------------
 // STATIC: SERVE FRONTEND BUILD IN PRODUCTION
@@ -58,5 +54,10 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
+
+// Default test route (only if not in production)
+app.get("/", (req, res) => {
+  res.json({ message: "API running successfully" });
+});
 
 export default app;
