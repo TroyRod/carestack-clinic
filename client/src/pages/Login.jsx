@@ -48,6 +48,11 @@ export default function Login() {
           <h1 className="signup-title">Welcome Back</h1>
           <p className="signup-subtitle">Sign in to your CareStack account</p>
 
+          {/* 👇 NEW PARAGRAPH ADDED FOR CI/CD DEMO */}
+          <p style={{ marginTop: "8px", fontSize: "0.9rem" }}>
+            This login page was updated as part of our CI/CD deployment demonstration.
+          </p>
+
           {error && <p className="signup-error">{error}</p>}
 
           <form className="signup-form" onSubmit={handleSubmit}>
