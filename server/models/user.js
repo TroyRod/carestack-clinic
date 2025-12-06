@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["admin", "doctor", "caregiver"],
+      enum: ["admin", "doctor"],
       default: "doctor",
     },
     
@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
       min: 100,
       max: 999,
       required: function () {
-        return this.role === "doctor" || this.role === "caregiver";
+        return this.role === "doctor";
       }
     },
 

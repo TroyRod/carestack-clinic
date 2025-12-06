@@ -9,8 +9,8 @@ import Signup from "./pages/Signup";
 import CreatePatient from "./pages/CreatePatient";
 import EditPatient from "./pages/EditPatient";
 import SignupDoctor from "./pages/SignupDoctor";
-import SignupCaregiver from "./pages/SignupCaregiver";
 import Medications from "./pages/Medications";
+import ManageDoctors from "./pages/ManageDoctors";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -25,7 +25,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup-doctor" element={<SignupDoctor />} />
-          <Route path="/signup-caregiver" element={<SignupCaregiver />} />
+          <Route path="/signup-admin" element={<Signup />} />
 
           {/* PROTECTED ROUTES */}
           <Route
@@ -69,6 +69,15 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Medications />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/manage-doctors"
+            element={
+              <ProtectedRoute>
+                <ManageDoctors />
               </ProtectedRoute>
             }
           />

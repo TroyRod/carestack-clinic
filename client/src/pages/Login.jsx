@@ -26,10 +26,10 @@ export default function Login() {
     try {
       setLoading(true);
 
-      const res = await API.post("/auth/signin", form);
+      const res = await API.post("/users/login", form);
 
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+      localStorage.setItem("role", res.data.user.role);
 
       setLoading(false);
       navigate("/dashboard");

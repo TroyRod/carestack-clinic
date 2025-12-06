@@ -4,22 +4,22 @@ import Patient from "../models/Patient.js";
 // CREATE PATIENT (doctor must be logged in)
 export const createPatient = async (req, res) => {
   try {
-    const doctorMongoId = req.user?._id;
+    const currentUserMongoId = req.user?._id;
+    const userRole = req.user?.role;
 
-    if (!doctorMongoId) {
+    if (!currentUserMongoId) {
       return res.status(401).json({ message: "Not authorized" });
     }
 
     const {
       patientId,
       doctorId,
-      caregiverId,
       name,
       age,
       diagnosis,
       symptoms,
       image,
-      medications, // <-- NEW
+      medications,
     } = req.body;
 
     if (!patientId || !name || !age || !diagnosis) {
@@ -28,17 +28,26 @@ export const createPatient = async (req, res) => {
         .json({ message: "patientId, name, age and diagnosis are required" });
     }
 
+    // Determine which doctor should be assigned
+    let assignedDoctorMongoId = currentUserMongoId;
+
+    // If admin is creating and assigned to a specific doctor, use that doctor's MongoDB ID
+    if (userRole === "admin" && doctorId) {
+      // doctorId here contains the MongoDB ID from the dropdown selection
+      assignedDoctorMongoId = doctorId;
+    }
+
     const patient = await Patient.create({
       patientId,
-      doctorId,
-      caregiverId,
+      // Note: we don't set the custom doctorId here when admin assigns
+      // it will be empty/undefined, which is fine
       name,
       age,
       diagnosis,
       symptoms,
       image,
-      doctor: doctorMongoId,          // logged-in doctor
-      medications: Array.isArray(medications) ? medications : [], // safe default
+      doctor: assignedDoctorMongoId, // MongoDB ID of assigned doctor
+      medications: Array.isArray(medications) ? medications : [],
     });
 
     res.status(201).json({ message: "Patient created", patient });
@@ -52,8 +61,7 @@ export const createPatient = async (req, res) => {
 export const getAllPatients = async (req, res) => {
   try {
     const patients = await Patient.find()
-      .populate("doctor", "name email role")
-      .populate("caregiver", "name email role");
+      .populate("doctor", "name email role customId");
 
     res.json(patients);
   } catch (err) {
@@ -68,8 +76,7 @@ export const getDoctorPatients = async (req, res) => {
     const doctorMongoId = req.user?._id;
 
     const patients = await Patient.find({ doctor: doctorMongoId })
-      .populate("doctor", "name email role")
-      .populate("caregiver", "name email role");
+      .populate("doctor", "name email role customId");
 
     res.json(patients);
   } catch (err) {
@@ -82,8 +89,7 @@ export const getDoctorPatients = async (req, res) => {
 export const getPatientById = async (req, res) => {
   try {
     const patient = await Patient.findById(req.params.id)
-      .populate("doctor", "name email role")
-      .populate("caregiver", "name email role");
+      .populate("doctor", "name email role customId");
 
     if (!patient) {
       return res.status(404).json({ message: "Patient not found" });
@@ -102,7 +108,6 @@ export const updatePatient = async (req, res) => {
     const {
       patientId,
       doctorId,
-      caregiverId,
       name,
       age,
       diagnosis,
@@ -114,7 +119,6 @@ export const updatePatient = async (req, res) => {
     const updateData = {
       patientId,
       doctorId,
-      caregiverId,
       name,
       age,
       diagnosis,

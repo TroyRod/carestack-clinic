@@ -22,14 +22,14 @@ export default function Dashboard() {
               <p>Create a new patient record.</p>
             </a>
 
-            <a href="/medications" style={styles.card}>
-              <h2>Manage Medications</h2>
-              <p>View all medications and prescriptions.</p>
+            <a href="/manage-doctors" style={styles.card}>
+              <h2>Manage Doctors</h2>
+              <p>View and manage all doctors in the system.</p>
             </a>
 
             <a href="/signup" style={styles.card}>
               <h2>Create User</h2>
-              <p>Add new doctors or caregivers.</p>
+              <p>Add new doctors or admins.</p>
             </a>
           </>
         )}

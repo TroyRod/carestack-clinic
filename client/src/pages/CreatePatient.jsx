@@ -8,19 +8,20 @@ export default function CreatePatient() {
 
   const [form, setForm] = useState({
     patientId: "",
-    doctorId: "",
-    caregiverId: "",
     name: "",
     age: "",
     diagnosis: "",
     symptoms: "",
     image: "",
     medications: [],
+    doctorId: "",
   });
 
   const [allMeds, setAllMeds] = useState([]);
+  const [doctors, setDoctors] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
-  // LOAD MEDICATIONS
+  // LOAD MEDICATIONS AND CHECK IF ADMIN
   useEffect(() => {
     const loadMeds = async () => {
       try {
@@ -30,7 +31,22 @@ export default function CreatePatient() {
         console.error("Failed to load medications", err);
       }
     };
+
+    const checkAdminAndLoadDoctors = async () => {
+      const role = localStorage.getItem("role");
+      if (role === "admin") {
+        setIsAdmin(true);
+        try {
+          const res = await API.get("/users/doctors");
+          setDoctors(res.data);
+        } catch (err) {
+          console.error("Failed to load doctors", err);
+        }
+      }
+    };
+
     loadMeds();
+    checkAdminAndLoadDoctors();
   }, []);
 
   // UPDATE TEXT INPUTS
@@ -99,8 +115,11 @@ export default function CreatePatient() {
       (m) => m.medId && m.dosage && m.time
     );
 
+    // Prepare data to send
+    const dataToSend = { ...form, medications: cleanedMeds };
+
     try {
-      await API.post("/patients", { ...form, medications: cleanedMeds });
+      await API.post("/patients", dataToSend);
       alert("Patient created successfully");
       navigate("/patients");
     } catch (err) {
@@ -119,15 +138,23 @@ export default function CreatePatient() {
           <label>Patient ID</label>
           <input name="patientId" value={form.patientId} onChange={handleChange} />
 
-          <label>Doctor Custom ID</label>
-          <input name="doctorId" value={form.doctorId} onChange={handleChange} />
-
-          <label>Caregiver Custom ID</label>
-          <input
-            name="caregiverId"
-            value={form.caregiverId}
-            onChange={handleChange}
-          />
+          {isAdmin && (
+            <>
+              <label>Assign to Doctor</label>
+              <select
+                name="doctorId"
+                value={form.doctorId}
+                onChange={handleChange}
+              >
+                <option value="">Select a Doctor</option>
+                {doctors.map((doc) => (
+                  <option key={doc._id} value={doc._id}>
+                    {doc.name} (ID: {doc.customId})
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
 
           <label>Full Name</label>
           <input name="name" value={form.name} onChange={handleChange} />

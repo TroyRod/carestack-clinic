@@ -27,7 +27,6 @@ const patientSchema = new mongoose.Schema(
   {
     patientId: { type: Number, required: true },    // your custom ID
     doctorId: { type: Number },                     // custom doctor # (optional)
-    caregiverId: { type: Number },                  // custom caregiver # (optional)
 
     name: { type: String, required: true },
     age: { type: Number, required: true },
@@ -41,10 +40,6 @@ const patientSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-    },
-    caregiver: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
     },
 
     // Embedded medications list

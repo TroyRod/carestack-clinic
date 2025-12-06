@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import API from "../api/api";
 import { Link } from "react-router-dom";
 import "./Patients.css"; // ← IMPORTANT
+import anonymousPhoto from "../assets/anonymous.webp";
 
 export default function Patients() {
   const [patients, setPatients] = useState([]);
@@ -54,7 +55,7 @@ export default function Patients() {
             <img
               src={
                 p.image ||
-                "https://via.placeholder.com/300x150?text=Patient+Image"
+                anonymousPhoto
               }
               alt="Patient"
               className="patient-image"
@@ -62,6 +63,12 @@ export default function Patients() {
 
             <h2 className="patient-name">{p.name}</h2>
 
+            <p className="patient-detail">
+              <strong>Patient ID:</strong> {p.patientId}
+            </p>
+            <p className="patient-detail">
+              <strong>Doctor ID:</strong> {p.doctor?.customId || "N/A"}
+            </p>
             <p className="patient-detail">
               <strong>Age:</strong> {p.age}
             </p>

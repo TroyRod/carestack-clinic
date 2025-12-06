@@ -1,0 +1,153 @@
+.edit-page {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #cedae7;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: #003b73;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  margin-bottom: 20px;
+}
+
+.edit-form {
+  display: grid;
+  grid-template-columns: 500px 500px;
+  gap: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: #f4f4f4;
+  color: black;
+}
+
+textarea {
+  height: 80px;
+  resize: vertical;
+}
+
+.upload-btn {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+  font-weight: bold;
+}
+
+.upload-btn:hover {
+  background: #0056b3;
+}
+
+.image-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.med-section-title {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+  font-weight: bold;
+}
+
+.med-card {
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.add-med-btn {
+  margin-top: 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: fit-content;
+  font-weight: bold;
+}
+
+.add-med-btn:hover {
+  background: #218838;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.save-btn {
+  background: #0066ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.save-btn:hover {
+  background: #0052cc;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+}
+
+.loading-text {
+  color: white;
+  font-size: 16px;
+  padding: 20px;
+}

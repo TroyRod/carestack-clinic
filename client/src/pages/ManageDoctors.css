@@ -1,0 +1,259 @@
+/* PAGE BACKGROUND */
+.manage-doctors-page {
+  background: #cedae7;
+  min-height: calc(100vh - 60px);
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* HEADER */
+.doctors-header {
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.doctors-header h1 {
+  font-size: 38px;
+  font-weight: 800;
+  color: #003b73;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+  margin: 0;
+}
+
+/* ADD BUTTON */
+.add-btn {
+  background: #00a3a9;
+  color: white;
+  padding: 14px 22px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 700;
+  transition: 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background: #007c82;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* CONTAINER */
+.doctors-container {
+  width: 100%;
+  max-width: 1300px;
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.08);
+  margin-bottom: 30px;
+}
+
+/* GRID LAYOUT */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+/* DOCTOR CARD */
+.doctor-card {
+  background: #f7f7f7;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  transition: 0.3s ease;
+}
+
+.doctor-card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-color: #c0c0c0;
+}
+
+.doctor-info {
+  flex: 1;
+  margin-bottom: 20px;
+}
+
+.doctor-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #003b73;
+  margin: 0 0 15px 0;
+}
+
+.doctor-detail {
+  font-size: 14px;
+  color: #555;
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.doctor-detail strong {
+  color: #003b73;
+  font-weight: 600;
+}
+
+/* STATUS BADGE */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.status-badge.active {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* BUTTONS */
+.button-row {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+/* BACK TO DASHBOARD */
+.back-to-dashboard {
+  background: #6c757d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.2s;
+  align-self: flex-start;
+}
+
+.back-to-dashboard:hover {
+  background: #5a6268;
+}
+
+.back-btn {
+  background: #6c757d;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.back-btn:hover {
+  background: #5a6268;
+}
+
+/* NO DATA MESSAGE */
+.no-data {
+  text-align: center;
+  font-size: 18px;
+  color: #999;
+  padding: 40px;
+}
+
+/* STATE MESSAGES */
+.loading-text,
+.error-text {
+  font-size: 18px;
+  color: #003b73;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-text {
+  color: #dc3545;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .doctors-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .doctors-header h1 {
+    font-size: 28px;
+  }
+
+  .doctors-container {
+    padding: 25px;
+  }
+
+  .doctors-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .add-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .manage-doctors-page {
+    padding: 20px 10px;
+  }
+
+  .doctors-header h1 {
+    font-size: 22px;
+  }
+
+  .doctors-container {
+    padding: 15px;
+  }
+
+  .doctor-card {
+    padding: 15px;
+  }
+
+  .doctor-name {
+    font-size: 20px;
+  }
+
+  .button-row {
+    flex-direction: column;
+  }
+
+  .delete-btn {
+    width: 100%;
+  }
+
+  .back-to-dashboard {
+    width: 100%;
+    text-align: center;
+  }
+}

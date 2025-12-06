@@ -31,11 +31,11 @@ export const registerUser = async (req, res) => {
         .json({ message: "Password must be at least 10 characters long" });
     }
 
-     // Doctor or caregiver MUST have customId
-    if ((role === "doctor" || role === "caregiver")) {
+     // Doctor MUST have customId
+    if (role === "doctor") {
       if (!customId || customId < 100 || customId > 999) {
         return res.status(400).json({
-          message: "Doctors and caregivers must have a 3-digit customId (100–999)"
+          message: "Doctors must have a 3-digit customId (100–999)"
         });
       }
     }
@@ -96,6 +96,41 @@ export const getUsers = async (req, res) => {
     const users = await User.find().select("-password");
     res.json(users);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @route   GET /api/users/doctors (Admin Only)
+export const getDoctors = async (req, res) => {
+  try {
+    const doctors = await User.find({ role: "doctor" }).select(
+      "name email customId"
+    );
+    res.json(doctors);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// @route   DELETE /api/users/:id (Admin Only)
+export const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Prevent admin from deleting themselves
+    if (userId === req.user._id.toString()) {
+      return res.status(400).json({ message: "You cannot delete your own account" });
+    }
+
+    const user = await User.findByIdAndDelete(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "User deleted successfully", user });
+  } catch (err) {
+    console.error("Delete user error:", err);
     res.status(500).json({ message: err.message });
   }
 };

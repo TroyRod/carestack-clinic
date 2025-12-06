@@ -25,8 +25,7 @@ export default function Navbar() {
           <>
             <Link to="/" className="nav-link">Home</Link>
             <Link to="/login" className="nav-link">Sign In</Link>
-            <Link to="/signup-doctor" className="nav-link">Doctor Signup</Link>
-            <Link to="/signup-caregiver" className="nav-link">Caregiver Signup</Link>
+            <Link to="/signup-admin" className="nav-link">Sign Up</Link>
           </>
         )}
 

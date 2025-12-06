@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api/api";
+import "./Medications.css";
 
 export default function Medications() {
   const { patientId } = useParams();
@@ -102,60 +103,45 @@ export default function Medications() {
 
   if (loading) {
     return (
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <p style={{ color: "white" }}>Loading medications...</p>
-        </div>
+      <div className="medications-page">
+        <p className="loading-message">Loading medications...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <p style={styles.error}>{error}</p>
-          <button style={styles.backBtn} onClick={() => navigate("/patients")}>
-            ← Back to Patients
-          </button>
-        </div>
+      <div className="medications-page">
+        <p className="error-message">{error}</p>
+        <button onClick={() => navigate("/patients")} className="cancel-btn">
+          ← Back to Patients
+        </button>
       </div>
     );
   }
 
   return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        <div style={styles.headerRow}>
-          <div>
-            <h1 style={styles.title}>
-              Medications for {patient?.name || "Patient"}
-            </h1>
-            <p style={styles.subtitle}>
-              Patient ID: {patient?.patientId} • Age: {patient?.age} • Diagnosis:{" "}
-              {patient?.diagnosis}
-            </p>
-          </div>
+    <div className="medications-page">
+      <div className="med-header">
+        <h1>Medications for {patient?.name || "Patient"}</h1>
+        <p>
+          Patient ID: {patient?.patientId} • Age: {patient?.age} • Diagnosis:{" "}
+          {patient?.diagnosis}
+        </p>
+      </div>
 
-          <button style={styles.backBtn} onClick={() => navigate("/patients")}>
-            ← Back to Patients
-          </button>
-        </div>
-
-        <h2 style={{ color: "white" }}>Manage Medications</h2>
-
+      <div className="medications-container">
         {/* Medication List */}
-        <div style={styles.medsGrid}>
-          {patient.medications.map((m, index) => (
-            <div key={index} style={styles.medCard}>
-              {/* MEDICATION DROPDOWN */}
-              <label style={styles.label}>Medication</label>
+        {patient.medications.map((m, index) => (
+          <div key={index} className="med-entry">
+            {/* MEDICATION DROPDOWN */}
+            <div className="med-field">
+              <label>Medication</label>
               <select
                 value={m.medId}
                 onChange={(e) =>
                   updateMedication(index, "medId", e.target.value)
                 }
-                style={styles.select}
               >
                 <option value="">Select Medication</option>
                 {medLibrary.map((med) => (
@@ -164,153 +150,60 @@ export default function Medications() {
                   </option>
                 ))}
               </select>
+            </div>
 
-              {/* DOSAGE */}
-              <label style={styles.label}>Dosage</label>
+            {/* DOSAGE */}
+            <div className="med-field">
+              <label>Dosage</label>
               <input
                 type="text"
                 value={m.dosage}
                 onChange={(e) =>
                   updateMedication(index, "dosage", e.target.value)
                 }
-                style={styles.input}
               />
+            </div>
 
-              {/* TIME */}
-              <label style={styles.label}>Time</label>
+            {/* TIME */}
+            <div className="med-field">
+              <label>Time</label>
               <select
                 value={m.time}
                 onChange={(e) =>
                   updateMedication(index, "time", e.target.value)
                 }
-                style={styles.select}
               >
                 <option>Morning</option>
                 <option>Afternoon</option>
                 <option>Evening</option>
                 <option>Night</option>
               </select>
-
-              {/* REMOVE */}
-              <button
-                type="button"
-                onClick={() => removeMedication(index)}
-                style={styles.removeBtn}
-              >
-                Remove
-              </button>
             </div>
-          ))}
-        </div>
 
-        <button onClick={addMedication} style={styles.addBtn}>
+            {/* REMOVE */}
+            <button
+              type="button"
+              onClick={() => removeMedication(index)}
+              className="remove-btn"
+            >
+              ✕ Remove
+            </button>
+          </div>
+        ))}
+
+        <button onClick={addMedication} className="add-med-btn">
           + Add Medication
         </button>
 
-        <button onClick={saveChanges} style={styles.saveBtn}>
-          Save Medication Changes
-        </button>
+        <div className="button-group">
+          <button onClick={saveChanges} className="save-btn">
+            Save Changes
+          </button>
+          <button onClick={() => navigate("/patients")} className="cancel-btn">
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-
-//
-// STYLES
-//
-const styles = {
-  page: { padding: "30px 40px" },
-  container: { maxWidth: "1100px", margin: "0 auto", color: "white" },
-
-  headerRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "20px",
-  },
-
-  title: { fontSize: "2rem", margin: 0 },
-  subtitle: { margin: 0, color: "#cccccc" },
-
-  backBtn: {
-    padding: "8px 14px",
-    background: "#444",
-    color: "white",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-  },
-
-  medsGrid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gap: "20px",
-    marginTop: "15px",
-  },
-
-  medCard: {
-    background: "white",
-    color: "#222",
-    padding: "16px",
-    borderRadius: "10px",
-    boxShadow: "0px 4px 10px rgba(0,0,0,0.25)",
-  },
-
-  label: { fontWeight: "bold", marginTop: "8px", display: "block" },
-  input: {
-    padding: "9px",
-    width: "100%",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    marginBottom: "6px",
-  },
-  select: {
-    padding: "9px",
-    width: "100%",
-    borderRadius: "6px",
-    border: "1px solid #ccc",
-    marginBottom: "6px",
-  },
-
-  addBtn: {
-    marginTop: "20px",
-    padding: "12px 18px",
-    background: "#28a745",
-    color: "white",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-
-  removeBtn: {
-    marginTop: "10px",
-    padding: "8px",
-    background: "#cc0000",
-    color: "white",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-    width: "100%",
-  },
-
-  saveBtn: {
-    marginTop: "30px",
-    padding: "14px",
-    background: "#007bff",
-    color: "white",
-    borderRadius: "6px",
-    border: "none",
-    cursor: "pointer",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    width: "100%",
-  },
-
-  error: {
-    background: "#ffe5e5",
-    color: "#c00",
-    padding: "10px",
-    borderRadius: "6px",
-    marginBottom: "15px",
-  },
-};
