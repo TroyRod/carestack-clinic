@@ -32,6 +32,19 @@ app.use(
 );
 
 // --------------------------------------------------
+// ROUTES (MUST BE BEFORE STATIC/CATCH-ALL)
+// --------------------------------------------------
+app.use("/api/users", userRoutes);
+app.use("/api/patients", patientRoutes);
+app.use("/api/medications", medicationRoutes);
+app.use("/api/upload", uploadRoutes);
+
+// Default test route
+app.get("/", (req, res) => {
+  res.json({ message: "API running successfully" });
+});
+
+// --------------------------------------------------
 // STATIC: SERVE FRONTEND BUILD IN PRODUCTION
 // --------------------------------------------------
 // When deploying full-stack on one host (e.g., Render), serve the Vite build
@@ -45,18 +58,5 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
-
-// --------------------------------------------------
-// ROUTES
-// --------------------------------------------------
-app.use("/api/users", userRoutes);
-app.use("/api/patients", patientRoutes);
-app.use("/api/medications", medicationRoutes);
-app.use("/api/upload", uploadRoutes);
-
-// Default test route
-app.get("/", (req, res) => {
-  res.json({ message: "API running successfully" });
-});
 
 export default app;
