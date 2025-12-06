@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import logoTiny from "../assets/logo_tiny.png";
+import logoTiny from "../assets/Logo_tiny.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
