@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import API from "../api/api";
 import { useNavigate } from "react-router-dom";
+import "./CreatePatient.css";
 
 export default function CreatePatient() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function CreatePatient() {
 
   const [allMeds, setAllMeds] = useState([]);
 
+  // LOAD MEDICATIONS
   useEffect(() => {
     const loadMeds = async () => {
       try {
@@ -31,24 +33,37 @@ export default function CreatePatient() {
     loadMeds();
   }, []);
 
+  // UPDATE TEXT INPUTS
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  // ADD MEDICATION ROW
   const addMedication = () => {
     setForm({
       ...form,
-      medications: [...form.medications, { medId: "", name: "", dosage: "", time: "" }],
+      medications: [
+        ...form.medications,
+        { medId: "", name: "", dosage: "", time: "" },
+      ],
     });
   };
 
+  // REMOVE MEDICATION ROW
+  const removeMedication = (index) => {
+    const meds = [...form.medications];
+    meds.splice(index, 1);
+    setForm({ ...form, medications: meds });
+  };
+
+  // UPDATE MEDICATION FIELDS
   const updateMedication = (index, field, value) => {
     const meds = [...form.medications];
 
     if (field === "medId") {
       const selected = allMeds.find((m) => m.medId === Number(value));
-      meds[index].medId = selected.medId;
-      meds[index].name = selected.name;
+      meds[index].medId = selected?.medId || "";
+      meds[index].name = selected?.name || "";
     } else {
       meds[index][field] = value;
     }
@@ -56,6 +71,7 @@ export default function CreatePatient() {
     setForm({ ...form, medications: meds });
   };
 
+  // IMAGE UPLOAD
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -74,10 +90,17 @@ export default function CreatePatient() {
     }
   };
 
+  // SUBMIT
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // prevent empty medication objects
+    const cleanedMeds = form.medications.filter(
+      (m) => m.medId && m.dosage && m.time
+    );
+
     try {
-      await API.post("/patients", form);
+      await API.post("/patients", { ...form, medications: cleanedMeds });
       alert("Patient created successfully");
       navigate("/patients");
     } catch (err) {
@@ -87,43 +110,50 @@ export default function CreatePatient() {
   };
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.title}>Create Patient</h1>
+    <div className="page-container">
+      <h1 className="page-title">Create Patient</h1>
 
-      <form onSubmit={handleSubmit} style={styles.form}>
-
+      <form onSubmit={handleSubmit} className="patient-form">
         {/* LEFT COLUMN */}
-        <div style={styles.column}>
-          <label style={styles.label}>Patient ID</label>
-          <input name="patientId" value={form.patientId} onChange={handleChange} style={styles.input} />
+        <div className="form-column">
+          <label>Patient ID</label>
+          <input name="patientId" value={form.patientId} onChange={handleChange} />
 
-          <label style={styles.label}>Doctor Custom ID</label>
-          <input name="doctorId" value={form.doctorId} onChange={handleChange} style={styles.input} />
+          <label>Doctor Custom ID</label>
+          <input name="doctorId" value={form.doctorId} onChange={handleChange} />
 
-          <label style={styles.label}>Caregiver Custom ID</label>
-          <input name="caregiverId" value={form.caregiverId} onChange={handleChange} style={styles.input} />
+          <label>Caregiver Custom ID</label>
+          <input
+            name="caregiverId"
+            value={form.caregiverId}
+            onChange={handleChange}
+          />
 
-          <label style={styles.label}>Full Name</label>
-          <input name="name" value={form.name} onChange={handleChange} style={styles.input} />
+          <label>Full Name</label>
+          <input name="name" value={form.name} onChange={handleChange} />
 
-          <label style={styles.label}>Age</label>
-          <input name="age" value={form.age} onChange={handleChange} style={styles.input} />
+          <label>Age</label>
+          <input name="age" value={form.age} onChange={handleChange} />
 
-          <label style={styles.label}>Diagnosis</label>
-          <input name="diagnosis" value={form.diagnosis} onChange={handleChange} style={styles.input} />
+          <label>Diagnosis</label>
+          <input name="diagnosis" value={form.diagnosis} onChange={handleChange} />
 
-          <label style={styles.label}>Symptoms</label>
-          <textarea name="symptoms" value={form.symptoms} onChange={handleChange} style={styles.textarea} />
+          <label>Symptoms</label>
+          <textarea
+            name="symptoms"
+            value={form.symptoms}
+            onChange={handleChange}
+          />
         </div>
 
         {/* RIGHT COLUMN */}
-        <div style={styles.column}>
-          <label style={styles.label}>Patient Image</label>
+        <div className="form-column">
+          <label>Patient Image</label>
 
           <button
             type="button"
+            className="upload-button"
             onClick={() => document.getElementById("uploadImgInput").click()}
-            style={styles.uploadBtn}
           >
             Upload Image
           </button>
@@ -137,16 +167,27 @@ export default function CreatePatient() {
           />
 
           {form.image && (
-            <img src={`http://localhost:3000${form.image}`} style={styles.preview} alt="Patient" />
+            <img
+              src={`http://localhost:3000${form.image}`}
+              alt="Preview"
+              className="image-preview"
+            />
           )}
 
-          <h3 style={{ marginTop: 20 }}>Medications</h3>
+          <h3 className="med-title">Medications</h3>
 
           {form.medications.map((m, index) => (
-            <div key={index} style={styles.medCard}>
-              <label style={styles.label}>Select Medication</label>
+            <div key={index} className="med-card">
+              <button
+                type="button"
+                className="remove-med-btn"
+                onClick={() => removeMedication(index)}
+              >
+                ✕
+              </button>
+
+              <label>Select Medication</label>
               <select
-                style={styles.input}
                 value={m.medId}
                 onChange={(e) => updateMedication(index, "medId", e.target.value)}
               >
@@ -158,114 +199,29 @@ export default function CreatePatient() {
                 ))}
               </select>
 
-              <label style={styles.label}>Dosage</label>
+              <label>Dosage</label>
               <input
-                style={styles.input}
                 value={m.dosage}
                 onChange={(e) => updateMedication(index, "dosage", e.target.value)}
               />
 
-              <label style={styles.label}>Time</label>
+              <label>Time</label>
               <input
-                style={styles.input}
                 value={m.time}
                 onChange={(e) => updateMedication(index, "time", e.target.value)}
               />
             </div>
           ))}
 
-          <button type="button" style={styles.addBtn} onClick={addMedication}>+ Add Medication</button>
+          <button type="button" className="add-med-btn" onClick={addMedication}>
+            + Add Medication
+          </button>
         </div>
       </form>
 
-      <button onClick={handleSubmit} style={styles.submitBtn}>Create Patient</button>
+      <button className="submit-btn" onClick={handleSubmit}>
+        Create Patient
+      </button>
     </div>
   );
 }
-
-//
-// STYLES
-//
-const styles = {
-  page: { padding: "20px 40px" },
-  title: { fontSize: "32px", color: "white", marginBottom: 20 },
-
-  form: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gap: "40px",
-    background: "white",
-    padding: 30,
-    borderRadius: 10,
-  },
-
-  column: { display: "flex", flexDirection: "column", gap: 12 },
-
-  label: { color: "#333", fontWeight: "bold", fontSize: "14px" },
-
-  input: {
-  padding: 10,
-  borderRadius: 6,
-  border: "1px solid #aaa",
-  background: "#f4f4f4",
-  color: "black",   // 👈 text typed inside input will be this color
-},
-
-  textarea: {
-  height: 80,
-  padding: 10,
-  borderRadius: 6,
-  border: "1px solid #aaa",
-  background: "#f4f4f4",
-  color: "black",   // 👈 same here
-},
-
-
-  uploadBtn: {
-    padding: "10px 15px",
-    background: "#007bff",
-    color: "white",
-    borderRadius: 6,
-    border: "none",
-    cursor: "pointer",
-    width: "150px",
-  },
-
-  preview: {
-    width: 150,
-    height: 150,
-    objectFit: "cover",
-    marginTop: 10,
-    borderRadius: 8,
-    border: "1px solid #ccc",
-  },
-
-  medCard: {
-    background: "#f7f7f7",
-    padding: 12,
-    borderRadius: 8,
-    border: "1px solid #ddd",
-  },
-
-  addBtn: {
-    marginTop: 10,
-    background: "#28a745",
-    color: "white",
-    border: "none",
-    padding: "10px 14px",
-    borderRadius: 6,
-    cursor: "pointer",
-    width: "fit-content",
-  },
-
-  submitBtn: {
-    marginTop: 20,
-    background: "#0066ff",
-    color: "white",
-    padding: "12px 18px",
-    borderRadius: 6,
-    border: "none",
-    cursor: "pointer",
-    fontSize: 16,
-  },
-};

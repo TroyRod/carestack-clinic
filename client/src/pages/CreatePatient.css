@@ -1,0 +1,110 @@
+.page-container {
+  padding: 40px;
+}
+
+.page-title {
+  font-size: 32px;
+  color: #003b73;
+  margin-bottom: 20px;
+}
+
+.patient-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-weight: bold;
+  color: #333;
+}
+
+input,
+select,
+textarea {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #aaa;
+  background: #f4f4f4;
+  color: black;
+}
+
+textarea {
+  height: 80px;
+}
+
+.upload-button {
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 150px;
+}
+
+.image-preview {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.med-title {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.med-card {
+  background: #f7f7f7;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  position: relative;
+}
+
+.remove-med-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: rgb(11, 0, 0);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-med-btn {
+  margin-top: 10px;
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: fit-content;
+}
+
+.submit-btn {
+  margin-top: 20px;
+  background: #0066ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
