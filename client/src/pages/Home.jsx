@@ -14,6 +14,9 @@ export default function Home() {
             A modern and secure platform designed for doctors, caregivers, and administrators.
             Manage patient records, medications, and care, all in one place!
           </p>
+          <p style={{ marginTop: "20px" }}>
+  This paragraph was added to demonstrate our CI/CD pipeline using GitHub and our cloud deployment service.
+</p>
 
           <a href="/login" className="home-button">
             Sign In
