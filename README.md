@@ -531,7 +531,7 @@ This project is licensed for educational purposes as part of COMP229-002 coursew
 
 ## Author
 
-**Rochelle**  
+**Jenzen Dela Paz**  
 Centennial College - Software Engineering Technology  
 Course: COMP229-002 Web Application Development  
 Fall 2025
