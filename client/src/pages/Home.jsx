@@ -12,8 +12,7 @@ export default function Home() {
           <h1>Welcome to CareStack Clinic</h1>
           <p>
             A modern and secure platform designed for doctors, caregivers, and administrators.
-            Manage patient records, medications, and care, all in one place!
-             This paragraph was added to demonstrate our CI/CD pipeline using GitHub and our cloud deployment service.
+            Manage patient records, medications, and care, all in one place.
           </p>
          
 
