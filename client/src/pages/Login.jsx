@@ -46,7 +46,7 @@ export default function Login() {
         {/* LEFT FORM SIDE */}
         <div className="signup-left">
           <h1 className="signup-title">Welcome Back</h1>
-          <p className="signup-subtitle">This login page was updated as part of our CI/CD deployment demonstration.</p>
+          <p className="signup-subtitle">Sign In</p>
             
             
        
